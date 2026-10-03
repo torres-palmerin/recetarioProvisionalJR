@@ -1,6 +1,6 @@
 # Recetario JR
 
-Vue 3 + Vite con funciones Node para Vercel. 45 fichas originales, secciones, búsqueda y visor adaptable a móvil.
+Vue 3 + Vite con funciones Node para Vercel. Recetario para pacientes: 45 fichas originales, categorías, búsqueda por nombre o categoría (sin distinguir acentos), visor adaptable a móvil y logo JR. Modos claro y oscuro: toma la preferencia del sistema al primer acceso y guarda la elección en el dispositivo.
 
 ## Desarrollo
 
