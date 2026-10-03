@@ -8,7 +8,7 @@ const logged=ref(false),loading=ref(true),busy=ref(false),password=ref(''),error
 const categories=['Todos','Desayunos','Antojitos','Platos fuertes','Mariscos','Frescos','Postres']
 const filtered=computed(()=>recipes.value.filter(r=>(category.value==='Todos'||r.category===category.value)&&normalize(`${r.title} ${r.category}`).includes(normalize(search.value.trim()))))
 async function api(action,body){const res=await fetch(`/api?action=${action}`,{method:body?'POST':'GET',headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):undefined});const data=await res.json();if(!res.ok){if(res.status===401&&action!=='login'){logged.value=false;close()}throw new Error(data.error||'No fue posible completar la solicitud.')}return data}
-async function load(){const session=await api('session');watermark.value=session.watermark;recipes.value=(await api('recipes')).recipes;logged.value=true}
+async function load(){const session=await api('session');watermark.value=session.watermark;recipes.value=(await api('recipes')).recipes;logged.value=true;await nextTick();window.scrollTo(0,0)}
 async function login(){busy.value=true;error.value='';try{await api('login',{password:password.value});password.value='';await load()}catch(e){error.value=e.message}finally{busy.value=false}}
 async function logout(){try{await api('logout',{});logged.value=false;recipes.value=[];close()}catch(e){error.value=e.message}}
 let opener=null
