@@ -1,1 +1,1 @@
-export {default} from '../server/api-handler.js'
+export {apiHandler as default} from '../server/api-handler.js'

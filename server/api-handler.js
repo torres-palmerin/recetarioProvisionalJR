@@ -4,7 +4,7 @@ import {verifyPassword, sign, readToken} from './auth.js'
 import {recipes} from './catalog.js'
 
 const attempts=new Map()
-export default async function handler(req,res) {
+export async function apiHandler(req,res) {
  res.setHeader('Cache-Control','private, no-store, max-age=0'); res.setHeader('X-Content-Type-Options','nosniff')
  const json=(status,data)=>{res.statusCode=status;res.setHeader('Content-Type','application/json');res.end(JSON.stringify(data))}
  const secret=process.env.SESSION_SECRET, hash=process.env.RECIPE_PASSWORD_HASH
@@ -36,3 +36,5 @@ export default async function handler(req,res) {
  if(action==='image') {const recipe=recipes.find(r=>r.id===url.searchParams.get('id'));if(!recipe)return json(404,{error:'Receta no encontrada.'});try{const image=await readFile(join(process.cwd(),'assests-recetas',recipe.file));res.setHeader('Content-Type','image/jpeg');res.end(image)}catch{return json(404,{error:'Ficha no disponible.'})}return}
  return json(404,{error:'Ruta no encontrada.'})
 }
+
+export default apiHandler
