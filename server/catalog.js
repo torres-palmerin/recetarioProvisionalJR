@@ -37,7 +37,7 @@ export const recipes = [
   },
   {
     "id": "07",
-    "title": "Ensalada de at?n",
+    "title": "Ensalada de atún",
     "category": "Frescos",
     "file": "WhatsApp Image 2026-10-02 at 12.39.01 PM (1).jpeg"
   },
@@ -67,19 +67,19 @@ export const recipes = [
   },
   {
     "id": "12",
-    "title": "Brochetas de camar?n",
+    "title": "Brochetas de camarón",
     "category": "Mariscos",
     "file": "WhatsApp Image 2026-10-02 at 12.39.06 PM (2).jpeg"
   },
   {
     "id": "13",
-    "title": "Caldo de alb?ndigas",
+    "title": "Caldo de albóndigas",
     "category": "Platos fuertes",
     "file": "WhatsApp Image 2026-10-02 at 12.39.06 PM (3).jpeg"
   },
   {
     "id": "14",
-    "title": "Caldo de camar?n",
+    "title": "Caldo de camarón",
     "category": "Mariscos",
     "file": "WhatsApp Image 2026-10-02 at 12.39.06 PM (4).jpeg"
   },
@@ -97,7 +97,7 @@ export const recipes = [
   },
   {
     "id": "17",
-    "title": "Ceviche de camar?n, mango y pescado",
+    "title": "Ceviche de camarón, mango y pescado",
     "category": "Mariscos",
     "file": "WhatsApp Image 2026-10-02 at 12.39.06 PM (7).jpeg"
   },
@@ -163,13 +163,13 @@ export const recipes = [
   },
   {
     "id": "28",
-    "title": "Tacos de lomo en salsa verde ? variante",
+    "title": "Tacos de lomo en salsa verde · variante",
     "category": "Antojitos",
     "file": "WhatsApp Image 2026-10-02 at 12.39.09 PM (3).jpeg"
   },
   {
     "id": "29",
-    "title": "Tortitas de at?n con especias",
+    "title": "Tortitas de atún con especias",
     "category": "Mariscos",
     "file": "WhatsApp Image 2026-10-02 at 12.39.09 PM (4).jpeg"
   },
@@ -181,7 +181,7 @@ export const recipes = [
   },
   {
     "id": "31",
-    "title": "Botana de reques?n",
+    "title": "Botana de requesón",
     "category": "Frescos",
     "file": "WhatsApp Image 2026-10-02 at 12.39.09 PM (6).jpeg"
   },
@@ -205,7 +205,7 @@ export const recipes = [
   },
   {
     "id": "35",
-    "title": "Sopes de reques?n",
+    "title": "Sopes de requesón",
     "category": "Antojitos",
     "file": "WhatsApp Image 2026-10-02 at 12.39.09 PM.jpeg"
   },
@@ -241,13 +241,13 @@ export const recipes = [
   },
   {
     "id": "41",
-    "title": "Salpic?n de res",
+    "title": "Salpicón de res",
     "category": "Frescos",
     "file": "WhatsApp Image 2026-10-02 at 12.39.10 PM (6).jpeg"
   },
   {
     "id": "42",
-    "title": "Tacos de pescado y camar?n",
+    "title": "Tacos de pescado y camarón",
     "category": "Mariscos",
     "file": "WhatsApp Image 2026-10-02 at 12.39.10 PM (7).jpeg"
   },
@@ -265,7 +265,7 @@ export const recipes = [
   },
   {
     "id": "45",
-    "title": "Fajitas de camar?n",
+    "title": "Fajitas de camarón",
     "category": "Mariscos",
     "file": "WhatsApp Image 2026-10-02 at 12.39.10 PM.jpeg"
   }
