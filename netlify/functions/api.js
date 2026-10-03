@@ -1,4 +1,4 @@
-import handler from '../../api/index.js'
+import handler from '../../server/api-handler.js'
 
 export async function handlerNetlify(event) {
   let responseBody = ''
