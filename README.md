@@ -29,6 +29,35 @@ npm run build
 
 Las reglas de `netlify.toml` deben permanecer antes del fallback de `/*` para que `/api` no reciba `index.html`.
 
+## Protección de contenido
+
+`src/content-protection.js` activa medidas disuasorias únicamente después del login: deshabilita selección, menú contextual, copiar, cortar, pegar, arrastre y atajos habituales de impresión o herramientas de desarrollo. También oculta el contenido cuando la pestaña o ventana pierde visibilidad. La limpieza de portapapeles para `PrintScreen` depende de permisos del navegador y puede no estar disponible.
+
+Estas medidas no pueden controlar capturas hechas por el sistema operativo ni impedir que una persona fotografíe la pantalla. Canvas tampoco ofrece protección contra capturas; solo evita que el texto exista como nodos HTML fácilmente extraíbles. En este proyecto las fichas ya se entregan como imágenes protegidas por sesión.
+
+Para una aplicación Android empaquetada, activa la protección nativa en la Activity:
+
+```java
+getWindow().setFlags(
+	WindowManager.LayoutParams.FLAG_SECURE,
+	WindowManager.LayoutParams.FLAG_SECURE
+);
+```
+
+En iOS, la notificación permite reaccionar después de una captura, no impedirla:
+
+```swift
+NotificationCenter.default.addObserver(
+	forName: UIApplication.userDidTakeScreenshotNotification,
+	object: nil,
+	queue: .main
+) { _ in
+	// Registrar el evento o mostrar una advertencia.
+}
+```
+
+`isSecureTextEntry` puede usarse como técnica de ocultación en ciertos contenedores iOS, pero no es una API pública para proteger una vista web completa y debe probarse por versión del sistema.
+
 ## Vercel
 
 1. Mantén el repositorio **privado** antes de subir las fichas: un repositorio público expondría las imágenes sin login.

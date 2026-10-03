@@ -1,5 +1,6 @@
 <script setup>
 import {ref,computed,onMounted,onBeforeUnmount,nextTick,watch} from 'vue'
+import {setupContentProtection} from './content-protection.js'
 const theme=ref(document.documentElement.dataset.theme || 'light')
 watch(theme,value=>{document.documentElement.dataset.theme=value;try{localStorage.setItem('jr-theme',value)}catch{}})
 const normalize=value=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase()
@@ -11,17 +12,17 @@ async function api(action,body){const res=await fetch(`/api?action=${action}`,{m
 async function load(){const session=await api('session');watermark.value=session.watermark;recipes.value=(await api('recipes')).recipes;logged.value=true;await nextTick();window.scrollTo(0,0)}
 async function login(){busy.value=true;error.value='';try{await api('login',{password:password.value});password.value='';await load()}catch(e){error.value=e.message}finally{busy.value=false}}
 async function logout(){try{await api('logout',{});logged.value=false;recipes.value=[];close()}catch(e){error.value=e.message}}
-let opener=null
+let opener=null,stopContentProtection=()=>{}
 async function open(recipe){opener=document.activeElement;close(false);selected.value=recipe;error.value='';try{const res=await fetch(`/api?action=image&id=${recipe.id}`);if(!res.ok){if(res.status===401){logged.value=false;close()}throw new Error('No se pudo abrir la ficha. Vuelve a iniciar sesión.')}imageUrl.value=URL.createObjectURL(await res.blob());await nextTick();document.querySelector('.close')?.focus()}catch(e){error.value=e.message}}
 function close(restore=true){if(imageUrl.value)URL.revokeObjectURL(imageUrl.value);imageUrl.value='';selected.value=null;zoom.value=false;if(restore)opener?.focus()}
 function visibility(){hidden.value=document.hidden}
 function keys(event){if(event.key==='Escape')close();if(selected.value&&event.key==='Tab'){const items=[...document.querySelectorAll('.viewer button')];if(event.shiftKey&&document.activeElement===items[0]){event.preventDefault();items.at(-1)?.focus()}else if(!event.shiftKey&&document.activeElement===items.at(-1)){event.preventDefault();items[0]?.focus()}}}
-onMounted(async()=>{document.addEventListener('visibilitychange',visibility);document.addEventListener('keydown',keys);try{await load()}catch(e){if(!e.message.includes('Inicia sesión'))error.value=e.message}finally{loading.value=false}})
-onBeforeUnmount(()=>{close();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('keydown',keys)})
+onMounted(async()=>{stopContentProtection=setupContentProtection({isProtected:()=>logged.value,onHide:()=>{hidden.value=true},onShow:()=>{hidden.value=false}});document.addEventListener('visibilitychange',visibility);document.addEventListener('keydown',keys);try{await load()}catch(e){if(!e.message.includes('Inicia sesión'))error.value=e.message}finally{loading.value=false}})
+onBeforeUnmount(()=>{stopContentProtection();close();document.removeEventListener('visibilitychange',visibility);document.removeEventListener('keydown',keys)})
 </script>
 
 <template>
- <div class="app" :class="{'privacy-hidden':hidden}" @contextmenu.prevent @dragstart.prevent>
+ <div class="app" :class="{'privacy-hidden':hidden,'content-protected':logged}" @contextmenu.prevent @dragstart.prevent>
   <header class="site-header">
    <a class="brand" href="/" aria-label="JR Nutrición · Inicio"><span class="brand-logo"><img src="/logo.png" alt="Juan José Rodríguez"></span><span class="brand-name">Tu recetario<span>Ideas para tu día a día</span></span></a>
    <div class="header-actions"><button class="theme-toggle" @click="theme=theme==='dark'?'light':'dark'" :aria-label="theme==='dark'?'Activar modo claro':'Activar modo oscuro'" :title="theme==='dark'?'Activar modo claro':'Activar modo oscuro'"><span aria-hidden="true">{{theme==='dark'?'☀':'☾'}}</span><span class="theme-label">{{theme==='dark'?'Modo claro':'Modo oscuro'}}</span></button><button v-if="logged" class="logout-button" @click="logout">Salir <span aria-hidden="true">↗</span></button><span v-else class="private-tag">Para pacientes</span></div>
