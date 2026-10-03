@@ -21,6 +21,14 @@ npm run build
 
 `npm run dev` incluye la API. `npm run preview` solo sirve el frontend; verifica funciones de producción en un despliegue Preview de Vercel.
 
+## Netlify
+
+1. Importa el repositorio en Netlify. `netlify.toml` configura `npm run build`, `dist` y la función `netlify/functions/api.js`.
+2. En Site configuration → Environment variables agrega `RECIPE_PASSWORD_HASH` y `SESSION_SECRET` para Production y Deploy Previews.
+3. Despliega y comprueba primero `/api?action=session`, el login y la apertura de una ficha.
+
+Las reglas de `netlify.toml` deben permanecer antes del fallback de `/*` para que `/api` no reciba `index.html`.
+
 ## Vercel
 
 1. Mantén el repositorio **privado** antes de subir las fichas: un repositorio público expondría las imágenes sin login.
